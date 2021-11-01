@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import UserItem from './UserItem';
+import Spinner from '../layout/Spinner';
 
 const userStyle = {
     display: 'grid',
@@ -7,39 +8,24 @@ const userStyle = {
     gridGap: '1rem',
 }
 
-class Users extends Component {
-    state = {
-        users: [
-            {
-            login: "mojombo",
-            id: 1,
-            avatar_url: "https://avatars.githubusercontent.com/u/1?v=4",
-            html_url: "https://github.com/mojombo",
-            },
-            {
-            login: "defunkt",
-            id: 2,
-            avatar_url: "https://avatars.githubusercontent.com/u/2?v=4",
-            html_url: "https://github.com/defunkt",
-            },
-            {
-            login: "pjhyett",
-            id: 3,
-            avatar_url: "https://avatars.githubusercontent.com/u/3?v=4",
-            html_url: "https://github.com/pjhyett",
-            },
-        ]
-    };
-
-    render() {
-        return(
+const Users = ({ users, loading}) => {
+    
+    return(
+        
+            loading 
+            ? 
+                <Spinner />
+            
+            : 
             <div style={userStyle}>
-                {this.state.users.map(user => (
+                {users.map(user => (
                     <UserItem key={user.id} user={user} />
                 ))}
-            </div>
-        )
-    }
+            </div> 
+            
+        
+        
+    )
 };
 
 export default Users;
