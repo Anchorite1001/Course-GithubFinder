@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const UserItem = (props) => {
     //traditionally (before react hooks were introduced), functional components are for stateless components.
-    const { id, login, avatar_url, html_url } = props.user;
+    const { login, avatar_url, html_url } = props.user;
 
     return (
         <div className='card text-center'>
