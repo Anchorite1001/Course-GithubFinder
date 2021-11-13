@@ -5,6 +5,7 @@ import './App.css';
 import Navbar from './components/layout/Navbar';
 import Users from './components/users/Users';
 import Search from './components/users/Search';
+import Alert from './components/layout/Alert';
 
 // cross component states: context / redux / store in app component.
 
@@ -51,8 +52,12 @@ class App extends Component {
     this.setState({
       // alert: { msg: msg, type: type}
       alert: { msg, type }
-    })
-  }
+    });
+
+    setTimeout(() => this.setState({
+      alert: null
+    }), 5000);
+  };
 
   render() {
     const { users, loading } = this.state;
@@ -61,6 +66,7 @@ class App extends Component {
       <div className='App'> 
         <Navbar />
         <div className='container'>
+          <Alert alert={this.state.alert}/>
           <Search 
           searchUsers={this.searchUsers}
           clearUsers = {this.clearUsers} 
