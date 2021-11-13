@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 
@@ -61,29 +62,31 @@ class App extends Component {
 
   render() {
     const { users, loading } = this.state;
-    
+    // home router: multiple components in single route
     return (
+      <Router>
       <div className='App'> 
         <Navbar />
+
         <div className='container'>
           <Alert alert={this.state.alert}/>
-          <Search 
-          searchUsers={this.searchUsers}
-          clearUsers = {this.clearUsers} 
-          showClear = {
-            users.length > 0
-            ? true
-            : false
-          }
-          setAlert={this.setAlert}
-          />
-          <Users 
-          loading={loading} 
-          users={users} 
-          />
+          <Routes>
+            <Route exact path='/' render={props => {
+              <Fragment>
+                <Search 
+                searchUsers={this.searchUsers}
+                clearUsers = {this.clearUsers} 
+                showClear = {users.length > 0 ? true : false}
+                setAlert={this.setAlert}
+                />
+                <Users loading={loading} users={users} />
+              </Fragment>
+            }}/>
+          </Routes>
+          
         </div>
-        
       </div>
+      </Router>
     );
   }
   
