@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom'
 
 const UserItem = (props) => {
     //traditionally (before react hooks were introduced), functional components are for stateless components.
-    const { login, avatar_url, html_url } = props.user;
+    const { login, avatar_url } = props.user;
 
     return (
         <div className='card text-center'>
@@ -16,12 +17,12 @@ const UserItem = (props) => {
             <h3>{login}</h3>
 
             <div>
-                <a 
-                href={html_url} 
+                <Link 
+                to={`/user/${login}`} 
                 className='btn btn-dark btn-sm my-1'
                 >
                     More
-                </a>
+                </Link>
             </div>
         </div>
     )
