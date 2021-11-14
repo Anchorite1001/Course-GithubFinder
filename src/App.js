@@ -4,7 +4,7 @@ import './App.css';
 
 import Navbar from './components/layout/Navbar';
 import About from './components/pages/About'
-import MainControl from './components/MainControl';
+import HomePage from './components/HomePage';
 import UserPage from './components/users/UserPage';
 
 // as navbar use link and shows in every page, better put it here within the router. 
@@ -14,7 +14,7 @@ const App = () => {
       <Router>
         <Navbar />
         <Routes>
-          <Route exact path='/' element={<MainControl />} />
+          <Route exact path='/' element={<HomePage />} />
           <Route exact path='/about' element={<About />} />
           <Route exact path='/user/:login' element={<UserPage />} />
         </Routes>
