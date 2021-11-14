@@ -4,11 +4,13 @@ import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import Spinner from '../layout/Spinner';
+import Repos from '../repos/Repos';
 
 const UserPage = () => {
     const { login } = useParams();
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(false);
+    const [repos, setRepos] = useState([]);
     
     // get single user's info from github endpoint
     const getUser = async (username) => {
@@ -18,8 +20,16 @@ const UserPage = () => {
       setLoading(false);
     };
 
+    const getUserRepos = async (username) => {
+        setLoading(true);
+        const res = await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}$client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+        setRepos(res.data);
+        setLoading(false);
+    };
+
     useEffect(() => {
         getUser(login);
+        getUserRepos(login);
     },[login])
 
     if (loading)  return <Spinner />
@@ -81,6 +91,7 @@ const UserPage = () => {
                 <div className='badge badge-light'>Public Repos: {user.public_repos}</div>
                 <div className='badge badge-dark'>Public Gists: {user.public_gists}</div>
             </div>
+            <Repos repos={repos}/>
         </Fragment>
     )
 }
