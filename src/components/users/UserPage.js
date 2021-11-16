@@ -1,32 +1,18 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import axios from 'axios';
+import React, { useEffect, Fragment, useContext } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import Spinner from '../layout/Spinner';
 import Repos from '../repos/Repos';
 
+import GithubContext from '../../context/github/githubContext';
+
 const UserPage = () => {
+    const githubContext = useContext(GithubContext);
+    const {getUser, getUserRepos, loading, user, repos} = githubContext;
+    const {hireable, avatar_url, name, location, bio, html_url, company, blog, followers, following, public_repos, public_gists} = user;
     const { login } = useParams();
-    const [user, setUser] = useState({});
-    const [loading, setLoading] = useState(false);
-    const [repos, setRepos] = useState([]);
     
-    // get single user's info from github endpoint
-    const getUser = async (username) => {
-      setLoading(true);
-      const res = await axios.get(`https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}$client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
-      setUser(res.data);
-      setLoading(false);
-    };
-
-    const getUserRepos = async (username) => {
-        setLoading(true);
-        const res = await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}$client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
-        setRepos(res.data);
-        setLoading(false);
-    };
-
     useEffect(() => {
         getUser(login);
         getUserRepos(login);
@@ -40,26 +26,26 @@ const UserPage = () => {
                 Back to Search
             </Link>
             Hireable: {'  '}
-            {user.hierable 
+            {hireable 
             ? <i className='fas fa-check text-success' />
             : <i className='fas fa-times-circle text-danger' />}
 
             <div className='card grid-2'>
                 <div className='all-center'>
-                    <img src={user.avatar_url} 
+                    <img src={avatar_url} 
                     className='round-img' alt=''
                     style={{width: '150px'}}/>
 
-                    <h1>{user.name}</h1>
-                    <p>Location: {user.location}</p>
+                    <h1>{name}</h1>
+                    <p>Location: {location}</p>
                 </div>
                 <div>
-                    {user.bio && 
+                    {bio && 
                     <Fragment>
                         <h3>Bio</h3>
-                        <p>{user.bio}</p>
+                        <p>{bio}</p>
                     </Fragment>}
-                    <a href={user.html_url}
+                    <a href={html_url}
                     className='btn btn-dark my1'>
                         Visit Github Profile
                     </a>
@@ -71,25 +57,25 @@ const UserPage = () => {
                             </Fragment>}
                         </li>
                         <li>
-                            {user.company && 
+                            {company && 
                             <Fragment>
-                                <strong>Company: </strong> {user.company}
+                                <strong>Company: </strong> {company}
                             </Fragment>}
                         </li>
                         <li>
-                            {user.blog && 
+                            {blog && 
                             <Fragment>
-                                <strong>Website: </strong> {user.blog}
+                                <strong>Website: </strong> {blog}
                             </Fragment>}
                         </li>
                     </ul>
                 </div>
             </div>
             <div className='card text-center'>
-                <div className='badge badge-primary'>Followers: {user.followers}</div>
-                <div className='badge badge-success'>Following: {user.following}</div>
-                <div className='badge badge-light'>Public Repos: {user.public_repos}</div>
-                <div className='badge badge-dark'>Public Gists: {user.public_gists}</div>
+                <div className='badge badge-primary'>Followers: {followers}</div>
+                <div className='badge badge-success'>Following: {following}</div>
+                <div className='badge badge-light'>Public Repos: {public_repos}</div>
+                <div className='badge badge-dark'>Public Gists: {public_gists}</div>
             </div>
             <Repos repos={repos}/>
         </Fragment>
