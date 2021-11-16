@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {useContext} from 'react';
+import AlertContext from '../../context/alert/alertContext';
 
-const Alert = ({ alert }) => {
-    Alert.propTypes = {
-        alert: PropTypes.object.isRequired,
-    }
+const Alert = () => {
+    const alertContext = useContext(AlertContext);
+    const {alert} = alertContext;
+    
     // check the css file if don't get this part.
     return (
         alert !== null && (

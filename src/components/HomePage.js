@@ -6,9 +6,11 @@ import Search from './users/Search';
 import Alert from './layout/Alert';
 
 import GithubContext from '../context/github/githubContext';
+import AlertContext from '../context/alert/alertContext';
 
 const HomePage = () => {
   const githubContext = useContext(GithubContext);
+  const alertContext = useContext(AlertContext);
   const [alert, setAlert] = useState(null);
 
   // set alert for no-text search
@@ -20,9 +22,8 @@ const HomePage = () => {
     
   return (
       <div className='container'>
-        <Alert alert={alert}/>
-        <Search 
-        showAlert={showAlert}
+        <Alert/>
+        <Search
         />
         <Users/>
       </div>
