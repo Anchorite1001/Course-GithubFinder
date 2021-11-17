@@ -11,3 +11,4 @@ This project was the first project from the course [React Front To Back](https:/
 * React.js
 * Context API
 * Github API
+* Netlify Deploy
